@@ -7,8 +7,28 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// 3. StateNotifierProvider: Es un proveedor de información que notifica cuando cambia su estado
 /// 4. MoviesNotifier: Clase que lo controla
 /// 5. `List<Movie>`: La data o state
+
+/// * GET >> movie/now_playing
 final nowPlayingMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>>((ref) {
   final fetchMoreMovies = ref.watch(movieRepositoryProvider).getNowPlaying;
+  return MoviesNotifier(fetchMoreMovies: fetchMoreMovies);
+});
+
+/// * GET >> movie/popular
+final popularMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>>((ref) {
+  final fetchMoreMovies = ref.watch(movieRepositoryProvider).getPopular;
+  return MoviesNotifier(fetchMoreMovies: fetchMoreMovies);
+});
+
+/// * GET >> movie/upcoming
+final upComingMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>>((ref) {
+  final fetchMoreMovies = ref.watch(movieRepositoryProvider).getUpcoming;
+  return MoviesNotifier(fetchMoreMovies: fetchMoreMovies);
+});
+
+/// * GET >> movie/top_rated
+final topRatedMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>>((ref) {
+  final fetchMoreMovies = ref.watch(movieRepositoryProvider).getTopRated;
   return MoviesNotifier(fetchMoreMovies: fetchMoreMovies);
 });
 
@@ -19,6 +39,7 @@ typedef MovieCallback = Future<List<Movie>> Function({int page});
 /// 2. MoviesNotifier: Solo necesita saber cual es el caso de uso para traer las películas
 class MoviesNotifier extends StateNotifier<List<Movie>> {
   int currentPage = 0;
+  bool isLoading = false;
   MovieCallback fetchMoreMovies;
 
   MoviesNotifier({
@@ -27,8 +48,14 @@ class MoviesNotifier extends StateNotifier<List<Movie>> {
 
   /// El objetivo es hacer alguna modificación al `state o sea al List<Movie>`
   Future<void> loadNextPage() async {
+    if (isLoading) return;
+    isLoading = true;
+
     currentPage++;
     final List<Movie> movies = await fetchMoreMovies(page: currentPage);
     state = [...state, ...movies]; // regresa un nuevo estado
+
+    await Future.delayed(const Duration(milliseconds: 300));
+    isLoading = false;
   }
 }
