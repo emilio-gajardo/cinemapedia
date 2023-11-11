@@ -13,4 +13,7 @@ abstract class MoviesRepository {
 
   /// 4. Mejor calificadas GET >> movie/top_rated
   Future<List<Movie>> getTopRated({int page = 1});
+
+  /// 5. Detalle pelicula GET movie/movieId
+  Future<Movie> getMovieById(String id);
 }
