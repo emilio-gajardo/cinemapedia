@@ -120,6 +120,8 @@ class _MovieDetails extends StatelessWidget {
           ),
         ),
 
+
+        // * Descripción
         SingleChildScrollView(
           child: Row(
             children: [
@@ -131,9 +133,14 @@ class _MovieDetails extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Descripción', style: textStyle.titleLarge),
-                      const SizedBox(height: 10,),
+                      const SizedBox(height: 10),
                       Text(movie.overview, style: textStyle.titleSmall),
 
+                      const SizedBox(height: 25),
+
+                      // * Actores
+                      Text('Actores', style: textStyle.titleLarge),
+                      const SizedBox(height: 10),
                       _ActorsByMovie(movieId: movie.id.toString()),
 
                       const SizedBox(height: 50),
