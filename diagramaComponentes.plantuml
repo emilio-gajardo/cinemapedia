@@ -1,0 +1,130 @@
+@startuml cinemapedia
+title diagrama
+
+
+/'CONFIG'/
+package config {
+
+    rectangle environment.dart
+    rectangle human_formats.dart
+    rectangle app_router.dart
+    rectangle app_theme.dart
+
+    [config] -down-> [constants]
+    [config] -down-> [helpers]
+    [config] -down-> [router]
+    [config] -down-> [theme]
+
+    [constants] -down-> environment.dart
+    [helpers] -down-> human_formats.dart
+    [router] -down-> app_router.dart
+    [theme] -down-> app_theme.dart
+}
+
+/'DOMAIN'/
+package domain {
+
+    rectangle "movies_datasource.dart"
+    rectangle "movie.dart"
+    rectangle "movies_repository.dart"
+    
+    [domain] --> [datasources]
+    [domain] --> [entities]
+    [domain] --> [repositories]
+    
+    [datasources] --> movies_datasource.dart
+    [entities] --> movie.dart
+    [repositories] --> movies_repository.dart
+}
+
+/'INFRASTRUCTURE'/
+package infrastructure{
+
+    rectangle "moviedb_datasource.dart"
+    rectangle "movie_mapper.dart"
+    rectangle "movie_moviedb.dart"
+    rectangle "moviedb_response.dart"
+    rectangle "movie_repository_impl.dart"
+
+    [infrastructure] --> [datasources]
+    [infrastructure] --> [mappers]
+    [infrastructure] --> [models]
+    [models] --> [moviedb]
+    [infrastructure] --> [repositories]
+
+    [datasources] --> moviedb_datasource.dart
+    [mappers] --> movie_mapper.dart
+    [moviedb] --> movie_moviedb.dart
+    [moviedb] --> moviedb_response.dart
+    [repositories] --> movie_repository_impl.dart
+}
+
+/'PRESENTATION'/
+package presentation{
+    [presentation] --> [providers]
+    [providers] --> providers.dart
+    [providers] --> [movies]
+    [movies] --> initial_loading_provider.dart
+    [movies] --> movies_providers.dart
+    [movies] --> movies_repository_provider.dart
+    [movies] --> movies_slideshow_provider.dart
+
+    [presentation] --> [screens]
+    [screens] --> screens.dart
+    [screens] --> [movies]
+    [movies] --> home_screen.dart
+
+    [presentation] --> [widgets]
+    [widgets] --> widgets.dart
+
+    [widgets] --> [movies]
+    [movies] --> movie_horizontal_listview.dart
+    [movies] --> movies_slideshow.dart
+
+    [widgets] --> [shared]
+    [shared] --> custom_appbar.dart
+    [shared] --> custom_bottom_navigation.dart
+    [shared] --> full_screen_loader.dart
+}
+
+
+node flujo {
+
+    package lib {
+        package domain {
+            package datasources {
+                package "movies_datasource.dart" {
+                    rectangle "getMovieById"
+                } 
+            }
+
+            package repositories {
+                package "movies_repository.dart"{
+                    rectangle getMovieById
+                }
+            }
+        }
+
+        package infrastructure {
+            package mappers {
+                package "movie_mapper.dart"{
+                    rectangle movieDetailsToEntity
+                }
+            }
+
+            package repositories {
+                package "movie_repository_impl.dart" {
+                    rectangle getMovieById
+                }
+            }
+        }
+    }
+
+
+}
+
+[widgets] -down-> [providers]
+[providers] -down-> [implementaciones]
+
+
+@enduml

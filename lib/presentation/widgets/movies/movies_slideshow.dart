@@ -4,6 +4,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:animate_do/animate_do.dart';
 
 import 'package:cinemapedia/domain/entities/movie.dart';
+import 'package:go_router/go_router.dart';
 
 class MoviesSlideshow extends StatelessWidget {
   final List<Movie> movies;
@@ -68,7 +69,17 @@ class _Slide extends StatelessWidget {
               if(loadingProgress != null) {
                 return const DecoratedBox(decoration: BoxDecoration(color: Colors.black12));
               }
-            return FadeIn(child: child);
+
+
+            /// * Widget de slide
+            /// * Mostrada en el home_screen
+            /// * Función que Redirige a la vista del detalle de la película
+            // return FadeIn(child: child);
+            return GestureDetector(
+              onTap: () => context.push('/movie/${movie.id}'),
+              child: FadeIn(child: child),
+            );
+
             },
           ),
         ),

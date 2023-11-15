@@ -62,19 +62,23 @@ class _HomeViewState extends ConsumerState<_HomeView> {
         ),
     
         SliverList(
-            delegate: SliverChildBuilderDelegate(
+          delegate: SliverChildBuilderDelegate(
           childCount: 1,
           (context, index) {
             return Column(
               children: [
                 // const CustomAppbar(),
-                MoviesSlideshow(movies: slideShowMovies),
+                MoviesSlideshow(
+                  movies: slideShowMovies,
+                  
+                  // loadNextPage:
+                ),
     
                 //* 1 = En cines
                 MovieHorizontalListview(
                   movies: nowPlayingMovies,
                   title: 'En cines',
-                  subTitle: '2023',
+                  subTitle: '${DateTime.now().year}',
                   loadNextPage: () => ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
                 ),
     
@@ -82,7 +86,7 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                 MovieHorizontalListview(
                   movies: upCommingMovies,
                   title: 'Próximamente',
-                  subTitle: 'Este mes',
+                  // subTitle: 'Este mes',
                   loadNextPage: () => ref.read(upComingMoviesProvider.notifier).loadNextPage(),
                 ),
     

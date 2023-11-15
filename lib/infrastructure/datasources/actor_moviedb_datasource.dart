@@ -24,7 +24,6 @@ class ActorMovieDbDatasource extends ActorsDatasource {
     final List<Actor> actors = castResponse
       .cast
       .map((cast) => ActorMapper.castToEntity(cast))
-      // .where((actor) => actor.profilePath != 'not-found' && actor.profilePath != 'notfound')
       .toList();
     return actors;
   }
