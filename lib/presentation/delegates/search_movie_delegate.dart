@@ -174,8 +174,9 @@ class _MovieSearchItem extends StatelessWidget {
               width: size.width * 0.2,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  movie.posterPath,
+                // child: Image.network(
+                child: Image(
+                  image: _getImagePosterProvider(movie.posterPath),
                   loadingBuilder: (context, child, loadingProgress) {
                     return FadeIn(child: child);
                   },
@@ -225,5 +226,13 @@ class _MovieSearchItem extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+ImageProvider<Object> _getImagePosterProvider(String? posterPath) {
+  if (posterPath != null && posterPath.isNotEmpty) {
+    return NetworkImage(posterPath);
+  } else {
+    return const AssetImage('assets/images/noimage.jpg');
   }
 }

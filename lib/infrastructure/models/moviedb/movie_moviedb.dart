@@ -1,5 +1,3 @@
-import 'package:intl/intl.dart';
-
 class MovieMovieDB {
     final bool adult;
     final String backdropPath;

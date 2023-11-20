@@ -18,7 +18,8 @@ class MovieMapper {
     popularity: moviedb.popularity,
     posterPath: (moviedb.posterPath != '')
       ? 'https://image.tmdb.org/t/p/w500/${moviedb.posterPath}'
-      : 'https://sd.keepcalms.com/i-w600/keep-calm-poster-not-found.jpg',
+      : '',
+      // : 'https://sd.keepcalms.com/i-w600/keep-calm-poster-not-found.jpg',
 
      releaseDate: (moviedb.releaseDate != null && moviedb.releaseDate.toString().isNotEmpty)
       ? DateTime.tryParse(moviedb.releaseDate.toString())
@@ -44,7 +45,8 @@ class MovieMapper {
     popularity: movie.popularity,
     posterPath: (movie.posterPath != '')
       ? 'https://image.tmdb.org/t/p/w500/${movie.posterPath}'
-      : 'https://sd.keepcalms.com/i-w600/keep-calm-poster-not-found.jpg',
+      : '',
+      // : 'https://sd.keepcalms.com/i-w600/keep-calm-poster-not-found.jpg',
     
     releaseDate: (movie.releaseDate != null && movie.releaseDate.toString().isNotEmpty)
       ? DateTime.tryParse(movie.releaseDate.toString())

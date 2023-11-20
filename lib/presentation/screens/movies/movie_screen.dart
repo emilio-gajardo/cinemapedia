@@ -281,8 +281,9 @@ class _ActorsByMovie extends ConsumerWidget {
                 FadeInRight(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    child: Image.network(
-                      actor.profilePath,
+                    // child: Image.network(
+                    child: Image(
+                      image: _getImageProvider(actor.profilePath),
                       height: 180,
                       width: 135,
                       fit: BoxFit.cover,
@@ -304,5 +305,15 @@ class _ActorsByMovie extends ConsumerWidget {
         },
       ),
     );
+  }
+}
+
+ImageProvider<Object> _getImageProvider(String? profilePath) {
+  if (profilePath != null && profilePath.isNotEmpty) {
+    // Si profilePath no es nulo ni está vacío, es una imagen de red
+    return NetworkImage(profilePath);
+  } else {
+    // Si profilePath es nulo o está vacío, usa la imagen local
+    return const AssetImage('assets/images/userdefault.jpg');
   }
 }

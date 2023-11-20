@@ -1,5 +1,3 @@
-import 'package:intl/intl.dart';
-
 class MovieDetails {
     final bool adult;
     final String backdropPath;

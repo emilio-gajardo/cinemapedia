@@ -26,3 +26,5 @@ flutter:
   uses-material-design: true
   assets:
     - .env
+    - assets/images/userdefault.jpg
+    - assets/images/noimage.jpg
