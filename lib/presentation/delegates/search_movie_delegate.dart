@@ -153,9 +153,18 @@ class _MovieSearchItem extends StatelessWidget {
     required this.onMovieSelected,
   });
 
+  bool _hasValidPoster() {
+     // ignore: unnecessary_null_comparison
+    return (movie.posterPath != null && movie.posterPath.isNotEmpty);
+  }
+
   @override
   Widget build(BuildContext context) {
-    // final textStyle = Theme.of(context).textTheme;
+
+    if (!_hasValidPoster()) {
+      return const SizedBox.shrink();
+    }
+
     final size = MediaQuery.of(context).size;
 
     return GestureDetector(
@@ -164,19 +173,17 @@ class _MovieSearchItem extends StatelessWidget {
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        
         child: Row(
-          // mainAxisAlignment: MainAxisAlignment.start,
           children: [
-    
+
             // * Imagen
             SizedBox(
               width: size.width * 0.2,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 // child: Image.network(
-                child: Image(
-                  image: _getImagePosterProvider(movie.posterPath),
+                child: Image.network(
+                  movie.posterPath,
                   loadingBuilder: (context, child, loadingProgress) {
                     return FadeIn(child: child);
                   },
@@ -226,13 +233,5 @@ class _MovieSearchItem extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-ImageProvider<Object> _getImagePosterProvider(String? posterPath) {
-  if (posterPath != null && posterPath.isNotEmpty) {
-    return NetworkImage(posterPath);
-  } else {
-    return const AssetImage('assets/images/noimage.jpg');
   }
 }
