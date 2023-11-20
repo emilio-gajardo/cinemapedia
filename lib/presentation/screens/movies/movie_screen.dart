@@ -1,3 +1,4 @@
+import 'package:cinemapedia/config/helpers/human_formats.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:animate_do/animate_do.dart';
@@ -99,14 +100,18 @@ class _MovieDetails extends StatelessWidget {
 
                       _MovieAttributeStyle(label: 'Título original', value: movie.originalTitle),
                       _MovieAttributeStyle(label: 'Título es-mx', value: movie.title),
-                      _MovieAttributeStyle(label: 'Fecha de estreno', value: DateFormat('dd MMMM yyyy').format(movie.releaseDate)),
+                      _MovieAttributeStyle(label: 'Fecha de estreno', value: (movie.releaseDate != null) ? (DateFormat('dd MMMM yyyy').format(movie.releaseDate!)): null ),
                       _MovieAttributeStyle(label: 'Generos', value: movie.genreIds.join(', ')),
                       _MovieAttributeStyle(label: 'Popularidad', value: movie.popularity.toString()),
 
                       // * Calificación
                       SizedBox(
                         child: Row(children: [
-                          _MovieAttributeStyle(label: 'Puntuación promedio', value: movie.voteAverage.toString()),
+                          _MovieAttributeStyle(
+                            label: 'Puntuación promedio',
+                            // value: movie.voteAverage.toString()
+                            value: HumanFormats.number(movie.voteAverage, 1),
+                          ),
                           // Icon(Icons.star_outlined, color: Colors.yellow.shade900,),
                         ],),
                       ),

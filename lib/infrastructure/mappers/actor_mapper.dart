@@ -8,7 +8,7 @@ class ActorMapper {
     name: cast.name,
     profilePath: cast.profilePath != null
       ? 'https://image.tmdb.org/t/p/w500/${cast.profilePath}'
-      : 'https://t3.ftcdn.net/jpg/03/81/66/86/240_F_381668640_Gv9wytd4ZlIgZWzVGfzSyfaNR7XJiL9p.jpg',
+      : 'https://st3.depositphotos.com/4111759/13425/v/600/depositphotos_134255710-stock-illustration-avatar-vector-male-profile-gray.jpg',
       // : const AssetImage('assets/images/userdefault.jpg'), // * info: imagen local
     character: cast.character,
   );
