@@ -161,13 +161,24 @@ class _MovieDetails extends StatelessWidget {
   }
 }
 
+
+/// - Emite un bool = ref
+/// - Pide un int = movieID
+final isFavoriteProvider = FutureProvider.family.autoDispose((ref, int movieId) {
+  final localStorageRepository = ref.watch(localStorageRepositoryProvider);
+  return localStorageRepository.isMovieFavorite(movieId);
+});
+
 /// [Clase que configura la imagen o poster] de una pelicula
-class _CustomSliverAppBar extends StatelessWidget {
+class _CustomSliverAppBar extends ConsumerWidget {
   final Movie movie;
   const _CustomSliverAppBar({required this.movie});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+
+    final AsyncValue<bool> isFavoriteFuture = ref.watch(isFavoriteProvider(movie.id));
+
     final size = MediaQuery.of(context).size;
 
     return SliverAppBar(
@@ -182,15 +193,22 @@ class _CustomSliverAppBar extends StatelessWidget {
           children: [
             
             // icono de sombra
-            const Icon(Icons.star_border, size: 50, color: Color.fromARGB(60, 158, 158, 158)),
+            // const Icon(Icons.star_border, size: 50, color: Color.fromARGB(60, 158, 158, 158)),
             
             // icono principal
             IconButton(
-              onPressed: (){
-              // todo: realizar toggle
+              onPressed: () async {
+                // ref.read(localStorageRepositoryProvider).toggleFavorites(movie);
+                await ref.read(favoriteMoviesProvider.notifier).toggleFavorite(movie);
+                ref.invalidate(isFavoriteProvider(movie.id)); // se invalida para reacer la peticion
               },
-              icon: const Icon(Icons.star_border, size: 35)
-              // icon: Icon(Icons.star, size: 35, color: Colors.yellow.shade800,)
+              icon: isFavoriteFuture.when(
+                loading: () => const CircularProgressIndicator(strokeWidth: 2),
+                data: (isFavorite) => isFavorite
+                  ? Icon(Icons.star, size: 35, color: Colors.yellow.shade800)
+                  : const Icon(Icons.star_border, size: 35),
+                error: (_, __) => throw UnimplementedError(), 
+              ),
             )
           ],
         )
