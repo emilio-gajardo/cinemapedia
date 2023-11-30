@@ -4,7 +4,7 @@ class Actor {
   final String profilePath;
   final String? character;
 
-  const Actor({
+  Actor({
     required this.id,
     required this.name,
     required this.profilePath,

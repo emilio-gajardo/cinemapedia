@@ -1,9 +1,9 @@
-import 'package:cinemapedia/domain/datasources/actors_datasource.dart';
-import 'package:cinemapedia/domain/entities/actor.dart';
-import 'package:cinemapedia/domain/repositories/actors_repository.dart';
+import 'package:cinemawik/domain/datasources/actors_datasource.dart';
+import 'package:cinemawik/domain/entities/actor.dart';
+import 'package:cinemawik/domain/repositories/actors_repository.dart';
 
 
-/// Objetivo de clase: hacer de "puente" enter el los "gestores de estado" y los "datasource"
+/// Objetivo de clase: hacer de "puente" enter los "gestores de estado" y los "datasource"
 class ActorRepositoryImpl extends ActorsRepository {
 
   final ActorsDatasource datasource;

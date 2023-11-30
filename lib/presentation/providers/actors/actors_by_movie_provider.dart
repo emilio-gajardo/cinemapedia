@@ -1,6 +1,6 @@
+import 'package:cinemawik/domain/entities/actor.dart';
+import 'package:cinemawik/presentation/providers/actors/actors_repository_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:cinemapedia/domain/entities/actor.dart';
-import 'package:cinemapedia/presentation/providers/providers.dart';
 
 final actorsByMovieProvider = StateNotifierProvider<ActorsByMovieNotifier, Map<String, List<Actor>>>((ref) {
   final actorsRepository = ref.watch(actorsRepositoryProvider);

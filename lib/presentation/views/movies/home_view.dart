@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:cinemapedia/presentation/providers/providers.dart';
-import 'package:cinemapedia/presentation/widgets/widgets.dart';
+import 'package:cinemawik/presentation/providers/providers.dart';
+import 'package:cinemawik/presentation/widgets/widgets.dart';
 
-
-/// Clase 2
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
 
@@ -13,8 +11,7 @@ class HomeView extends ConsumerStatefulWidget {
   HomeViewState createState() => HomeViewState();
 }
 
-/// Clase 3
-class HomeViewState extends ConsumerState<HomeView> {
+class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
@@ -26,13 +23,14 @@ class HomeViewState extends ConsumerState<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
 
     final initialLoading = ref.watch(initialLoadingProvider);
     if(initialLoading) return FullScreenLoader();
 
     final slideShowMovies  = ref.watch(moviesSlideshowProvider);
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
-    final popularMovies    = ref.watch(popularMoviesProvider);
+    //final popularMovies    = ref.watch(popularMoviesProvider);
     final upCommingMovies  = ref.watch(upComingMoviesProvider);
     final topRatedMovies   = ref.watch(topRatedMoviesProvider);
 
@@ -53,12 +51,9 @@ class HomeViewState extends ConsumerState<HomeView> {
             return Column(
               children: [
                 // const CustomAppbar(),
-                MoviesSlideshow(
-                  movies: slideShowMovies,
-                  
-                  // loadNextPage:
-                ),
-    
+                MoviesSlideshow(movies: slideShowMovies),
+                const SizedBox(height: 10),
+                
                 //* 1 = En cines
                 MovieHorizontalListview(
                   movies: nowPlayingMovies,
@@ -66,7 +61,8 @@ class HomeViewState extends ConsumerState<HomeView> {
                   subTitle: '${DateTime.now().year}',
                   loadNextPage: () => ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
                 ),
-    
+                const SizedBox(height: 10),
+
                 //* 2 = Próximamente
                 MovieHorizontalListview(
                   movies: upCommingMovies,
@@ -74,19 +70,19 @@ class HomeViewState extends ConsumerState<HomeView> {
                   // subTitle: 'Este mes',
                   loadNextPage: () => ref.read(upComingMoviesProvider.notifier).loadNextPage(),
                 ),
-    
+
                 //* 3 Populares
-                MovieHorizontalListview(
-                  movies: popularMovies,
-                  title: 'Populares',
-                  loadNextPage: () => ref.read(popularMoviesProvider.notifier).loadNextPage(),
-                ),
+                // MovieHorizontalListview(
+                //   movies: popularMovies,
+                //   title: 'Populares',
+                //   loadNextPage: () => ref.read(popularMoviesProvider.notifier).loadNextPage(),
+                // ),
     
                 //* 4 = Mejor calificadas
                 MovieHorizontalListview(
                   movies: topRatedMovies,
                   title: 'Mejor calificadas',
-                  subTitle: 'Desde siempre',
+                  // subTitle: 'Desde siempre',
                   loadNextPage: () => ref.read(topRatedMoviesProvider.notifier).loadNextPage(),
                 ),
                 const SizedBox(height: 25),
@@ -97,4 +93,6 @@ class HomeViewState extends ConsumerState<HomeView> {
       ],
     );
   }
+  @override
+  bool get wantKeepAlive => true;
 }

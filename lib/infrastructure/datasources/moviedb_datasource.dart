@@ -1,20 +1,22 @@
 import 'package:dio/dio.dart';
 
-import 'package:cinemapedia/infrastructure/models/moviedb/movie_details.dart';
+import 'package:cinemawik/config/constants/environment.dart';
+import 'package:cinemawik/domain/datasources/movies_datasource.dart';
 
-import 'package:cinemapedia/config/constants/environment.dart';
-import 'package:cinemapedia/domain/datasources/movies_datasource.dart';
+import 'package:cinemawik/infrastructure/models/models.dart';
+import 'package:cinemawik/infrastructure/mappers/mappers.dart';
 
-import 'package:cinemapedia/infrastructure/mappers/movie_mapper.dart';
-import 'package:cinemapedia/infrastructure/models/moviedb/moviedb_response.dart';
-import 'package:cinemapedia/domain/entities/movie.dart';
+import 'package:cinemawik/domain/entities/entities.dart';
 
 class MoviedbDatasource extends MoviesDatasource {
   final dio = Dio(
-    BaseOptions(baseUrl: Environment.urlBase, queryParameters: {
-      'api_key': Environment.theMovieDBKey,
-      'language': Environment.language,
-    }),
+    BaseOptions(
+      baseUrl: Environment.urlBase,
+      queryParameters: {
+        'api_key': Environment.theMovieDBKey,
+        'language': Environment.language,
+      }
+    ),
   );
 
   List<Movie> _jsonToMovies(Map<String, dynamic> json) {
@@ -56,7 +58,7 @@ class MoviedbDatasource extends MoviesDatasource {
   @override
   Future<Movie> getMovieById(String id) async {
     final response = await dio.get('movie/$id');
-    if(response.statusCode !=200) throw Exception('Movie width id: $id not found');
+    if(response.statusCode !=200) throw Exception('Movie with id: $id not found');
     final MovieDetails movieDetails = MovieDetails.fromJson(response.data);
     final Movie movie = MovieMapper.movieDetailsToEntity(movieDetails);
     return movie;
@@ -64,6 +66,7 @@ class MoviedbDatasource extends MoviesDatasource {
   
   @override
   Future<List<Movie>> searchMovies(String query) async {
+
     final trimmedQuery = query.trim();
     if (trimmedQuery.isNotEmpty){
       final response = await dio.get('search/movie', queryParameters: {'query': trimmedQuery});
@@ -71,6 +74,28 @@ class MoviedbDatasource extends MoviesDatasource {
     } else {
       return [];
     }
+  }
+
+  @override
+  Future<List<Movie>> getSimilarMovies(int movieId) async {
+    final response = await dio.get('/movie/$movieId/similar');
+    return _jsonToMovies(response.data);
+  }
+
+  @override
+  Future<List<Video>> getYoutubeVideosById(int movieId) async {
+    final response = await dio.get('/movie/$movieId/videos');
+    final moviedbVideosReponse = MoviedbVideosResponse.fromJson(response.data);
+    final videos = <Video>[];
+
+    for (final moviedbVideo in moviedbVideosReponse.results) {
+      if ( moviedbVideo.site == 'YouTube' ) {
+        final video = VideoMapper.moviedbVideoToEntity(moviedbVideo);
+        videos.add(video);
+      }
+    }
+
+    return videos;
   }
 
 }
