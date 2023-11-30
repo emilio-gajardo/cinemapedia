@@ -1,5 +1,5 @@
-import 'package:cinemapedia/domain/entities/movie.dart';
-import 'package:cinemapedia/presentation/providers/movies/movies_repository_provider.dart';
+import 'package:cinemawik/domain/entities/movie.dart';
+import 'package:cinemawik/presentation/providers/movies/movies_repository_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// 1. Clase que permite la reutilización de casos de usos

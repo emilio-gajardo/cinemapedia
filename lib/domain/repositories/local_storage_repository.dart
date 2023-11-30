@@ -1,9 +1,9 @@
-import 'package:cinemapedia/domain/entities/movie.dart';
+import 'package:cinemawik/domain/entities/movie.dart';
 
 abstract class LocalStorageRepository {
 
   /// - Recibe la película completa
-  Future<void> toggleFavorites(Movie movie);
+  Future<void> toggleFavorite(Movie movie);
   
   /// - Valida si la película es favorita en base a su id
   Future<bool> isMovieFavorite(int movieId);

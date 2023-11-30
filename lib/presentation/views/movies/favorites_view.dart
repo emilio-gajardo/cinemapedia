@@ -1,26 +1,26 @@
-import 'package:cinemapedia/presentation/widgets/widgets.dart';
+import 'package:cinemawik/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:cinemapedia/domain/entities/movie.dart';
+import 'package:cinemawik/domain/entities/movie.dart';
 
-import 'package:cinemapedia/presentation/providers/providers.dart';
+import 'package:cinemawik/presentation/providers/providers.dart';
 import 'package:go_router/go_router.dart';
 
 class FavoritesView extends ConsumerStatefulWidget {
-  const FavoritesView({Key? key}) : super(key: key);
+  const FavoritesView({super.key});
 
   @override
-  FavoriteViewState createState() => FavoriteViewState();
+  FavoritesViewState createState() => FavoritesViewState();
 }
 
-class FavoriteViewState extends ConsumerState<FavoritesView> {
+class FavoritesViewState extends ConsumerState<FavoritesView> with AutomaticKeepAliveClientMixin {
   bool isLastPage = false;
   bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    loadNextPage(); // aquí se cargan las siguientes peliculas usando "loadNextPage()"
+    loadNextPage(); // aquí se cargan las siguientes peliculas
   }
 
   void loadNextPage() async {
@@ -35,6 +35,7 @@ class FavoriteViewState extends ConsumerState<FavoritesView> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final Map<int, Movie> favoriteMoviesMap = ref.watch(favoriteMoviesProvider);
     final List<Movie> favoriteMovies = favoriteMoviesMap.values.toList();
 
@@ -65,4 +66,8 @@ class FavoriteViewState extends ConsumerState<FavoritesView> {
       )
     );
   }
+
+  /// true = establece que si se mantenga el estado actual del widget incluso si no esta en la pantalla actual
+  @override
+  bool get wantKeepAlive => true;
 }

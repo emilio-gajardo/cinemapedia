@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-import 'package:cinemapedia/domain/entities/movie.dart';
-import 'package:cinemapedia/presentation/widgets/movies/movie_poster_link.dart';
+import 'package:cinemawik/domain/entities/movie.dart';
+import 'package:cinemawik/presentation/widgets/movies/movie_poster_link.dart';
 
 class MovieMasonry extends StatefulWidget {
   final List<Movie> movies;
@@ -43,12 +43,13 @@ class _MovieMasonryState extends State<MovieMasonry> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10), // separacion bordes externos
+      // padding: const EdgeInsets.symmetric(horizontal: 10), // separacion bordes externos
+      padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10, top: 12), // separacion bordes externos
       child: MasonryGridView.count(
         controller: scrollController,
         crossAxisCount: 3, // son las columnas
-        mainAxisSpacing: 10, // separacion entre filas
-        crossAxisSpacing: 10, // separacion entre columnas
+        mainAxisSpacing: 15, // separacion entre filas
+        crossAxisSpacing: 15, // separacion entre columnas
         itemCount: widget.movies.length,
         // scrollDirection: Axis.vertical,
         // physics: const BouncingScrollPhysics(),

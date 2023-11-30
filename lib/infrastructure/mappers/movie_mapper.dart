@@ -1,6 +1,6 @@
-import 'package:cinemapedia/domain/entities/movie.dart';
-import 'package:cinemapedia/infrastructure/models/moviedb/movie_details.dart';
-import 'package:cinemapedia/infrastructure/models/moviedb/movie_moviedb.dart';
+import 'package:cinemawik/domain/entities/movie.dart';
+import 'package:cinemawik/infrastructure/models/moviedb/movie_details.dart';
+import 'package:cinemawik/infrastructure/models/moviedb/movie_moviedb.dart';
 
 /// El objetivo es crear un 'objeto pelicula' en base a algun objeto recibido
 

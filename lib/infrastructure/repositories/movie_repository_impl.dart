@@ -1,6 +1,6 @@
-import 'package:cinemapedia/domain/datasources/movies_datasource.dart';
-import 'package:cinemapedia/domain/entities/movie.dart';
-import 'package:cinemapedia/domain/repositories/movies_repository.dart';
+import 'package:cinemawik/domain/datasources/movies_datasource.dart';
+import 'package:cinemawik/domain/entities/entities.dart';
+import 'package:cinemawik/domain/repositories/movies_repository.dart';
 
 /// Implementació de MoviesRepository
 /// El objetivo es poder llamar al método getNowPlaying()
@@ -38,4 +38,16 @@ class MovieRepositoryImpl extends MoviesRepository {
   Future<List<Movie>> searchMovies(String query) {
     return datasource.searchMovies(query);
   }
+  
+  @override
+  Future<List<Movie>> getSimilarMovies(int movieId) {
+    return datasource.getSimilarMovies(movieId);
+  }
+  
+  @override
+  Future<List<Video>> getYoutubeVideosById(int movieId) {
+    return datasource.getYoutubeVideosById(movieId);
+  }
+
+
 }

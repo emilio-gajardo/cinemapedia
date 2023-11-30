@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:animate_do/animate_do.dart';
 
-import 'package:cinemapedia/domain/entities/movie.dart';
+import 'package:cinemawik/domain/entities/movie.dart';
 import 'package:go_router/go_router.dart';
 
 class MoviesSlideshow extends StatelessWidget {
@@ -49,19 +49,21 @@ class _Slide extends StatelessWidget {
     final decoration = BoxDecoration(
       borderRadius: BorderRadius.circular(20),
       boxShadow: const [
-      BoxShadow(
-        color: Colors.black45,
-        blurRadius: 10,
-        offset: Offset(0, 10)
-      )
+        BoxShadow(
+          color: Colors.black45,
+          blurRadius: 10,
+          offset: Offset(0, 10)
+        )
       ]
     );
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 30),
       child: DecoratedBox(
         decoration: decoration,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
+
           child: Image.network(
             movie.backdropPath,
             fit: BoxFit.cover,
@@ -70,19 +72,16 @@ class _Slide extends StatelessWidget {
                 return const DecoratedBox(decoration: BoxDecoration(color: Colors.black12));
               }
 
-
-            /// * Widget de slide
-            /// * Mostrada en el home_screen
-            /// * Función que Redirige a la vista del detalle de la película
-            // return FadeIn(child: child);
-            return GestureDetector(
-              onTap: () => context.push('/home/0/movie/${movie.id}'),
-              child: FadeIn(child: child),
-            );
+              /// * Widget de slide, Mostrada en el home_screen
+              /// * Función que Redirige a la vista del detalle de la película
+              return GestureDetector(
+                onTap: () => context.push('/home/0/movie/${movie.id}'),
+                child: FadeIn(child: child),
+              );
 
             },
           ),
-        ),
+        )
       ),
     );
   }

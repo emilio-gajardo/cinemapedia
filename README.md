@@ -1,4 +1,4 @@
-# cinemapedia
+# cinededomena
 
 ### Info
 * Aplicación móvil creada con Flutter y Dart

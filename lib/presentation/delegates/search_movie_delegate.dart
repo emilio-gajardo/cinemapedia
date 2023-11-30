@@ -1,10 +1,11 @@
 import 'dart:async';
+
+import 'package:cinemawik/config/helpers/human_formats.dart';
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:intl/intl.dart';
 
-import 'package:cinemapedia/config/helpers/human_formats.dart';
-import 'package:cinemapedia/domain/entities/movie.dart';
+import 'package:cinemawik/domain/entities/movie.dart';
 
 typedef SearchMoviesCallback = Future<List<Movie>> Function(String query);
 
@@ -20,7 +21,9 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
   SearchMovieDelegate({
     required this.searchMovies,
     required this.initialMovies,
-  });
+  }):super(
+    searchFieldLabel: 'Buscar películas',
+  );
 
   void clearStreams() {
     debouncedMovies.close();
@@ -51,8 +54,8 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
     );
   }
 
-  @override
-  String get searchFieldLabel => 'Buscar película';
+  // @override
+  // String get searchFieldLabel => 'Buscar película';
 
   Widget buildResultsAndSuggestions() {
     return StreamBuilder(
@@ -83,14 +86,13 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
 
     return [
 
-    // todo: hacer condicion [isLoadingStream]
       StreamBuilder(
         initialData: false,
         stream: isLoadingStream.stream,
         builder: (context, snapshot) {
           if(snapshot.data ?? false) {
             return SpinPerfect(
-              duration: const Duration(seconds: 10),
+              duration: const Duration(seconds: 20),
               spins: 10,
               infinite: true,
               child: IconButton(
@@ -150,7 +152,7 @@ class _MovieSearchItem extends StatelessWidget {
   final Function(BuildContext context, Movie movie) onMovieSelected;
   const _MovieSearchItem({
     required this.movie,
-    required this.onMovieSelected,
+    required this.onMovieSelected
   });
 
   bool _hasValidPoster() {
@@ -160,6 +162,8 @@ class _MovieSearchItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+  
+    final textStyles = Theme.of(context).textTheme;
 
     if (!_hasValidPoster()) {
       return const SizedBox.shrink();
@@ -171,65 +175,73 @@ class _MovieSearchItem extends StatelessWidget {
       onTap: () {
         onMovieSelected(context, movie);
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        child: Row(
-          children: [
-
-            // * Imagen
-            SizedBox(
-              width: size.width * 0.2,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                // child: Image.network(
-                child: Image.network(
-                  movie.posterPath,
-                  loadingBuilder: (context, child, loadingProgress) {
-                    return FadeIn(child: child);
-                  },
-                ),
-              ),
-            ),
-    
-            const SizedBox(width: 10),
-    
-            // * Titulo y fecha de estreno
-            SizedBox(
-              width: size.width * 0.7,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-
-                  Text('Título: ${movie.title}'),
-
-                  // * Fecha de estreno
-                  (movie.releaseDate != null && movie.releaseDate is DateTime)
-                    ? Text('Estreno: ${DateFormat('MMMM yyyy').format( movie.releaseDate! )}')
-                    : const Text('Estreno: no disponible', style: TextStyle(color: Colors.grey)),
-
-                    // * Votos
-                    Row(
-                      children: [
-                        const Text('Valoración: '),
-                        Icon(Icons.star_half, color: Colors.yellow.shade900),
-                        const SizedBox(width: 10),
-                        Text(
-                          HumanFormats.number(movie.voteAverage, 1),
-                          style: TextStyle(color: Colors.yellow.shade900)
-                        ),
-                      ],
+      child: FadeIn(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          child: Row(
+            children: [
+      
+              // * Image
+              SizedBox(
+                width: size.width * 0.2,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      movie.posterPath,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress != null) {
+                          return const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Center(child: CircularProgressIndicator(strokeWidth: 2))
+                          );
+                        }
+                        return FadeIn(child: child);
+                      },
                     ),
 
-                  // * Descripción
-                  // ignore: unnecessary_null_comparison
-                  (movie.overview != null && movie.overview.length > 90 )
-                    ? Text('${movie.overview.substring(0, 90)}...')
-                    : Text(movie.overview),
-                     
-                ],
+                  ),
               ),
-            ),
-          ],
+
+              const SizedBox(width: 10),
+          
+              // * Titulo y fecha de estreno
+              SizedBox(
+                width: size.width * 0.7,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+      
+                    Text('Título: ${movie.title}'),
+      
+                    // * Fecha de estreno
+                    (movie.releaseDate != null && movie.releaseDate is DateTime)
+                      ? Text('Estreno: ${DateFormat('MMMM yyyy').format( movie.releaseDate! )}')
+                      : const Text('Estreno: no disponible', style: TextStyle(color: Colors.grey)),
+      
+                      // * Votos
+                      Row(
+                        children: [
+                          const Text('Valoración: '),
+                          Icon(Icons.star_half, color: Colors.yellow.shade900),
+                          const SizedBox(width: 10),
+                          Text(
+                            HumanFormats.number(movie.voteAverage, 1),
+                            style: TextStyle(color: Colors.yellow.shade900)
+                          ),
+                        ],
+                      ),
+      
+                    // * Descripción
+                    // ignore: unnecessary_null_comparison
+                    (movie.overview != null && movie.overview.length > 90 )
+                      ? Text('${movie.overview.substring(0, 90)}...')
+                      : Text(movie.overview),
+                       
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

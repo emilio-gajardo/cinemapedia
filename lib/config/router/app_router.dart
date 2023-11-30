@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:cinemapedia/presentation/screens/screens.dart';
+import 'package:cinemawik/presentation/screens/screens.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/home/0',

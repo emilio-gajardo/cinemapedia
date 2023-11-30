@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:cinemapedia/config/helpers/human_formats.dart';
-import 'package:cinemapedia/domain/entities/movie.dart';
+import 'package:cinemawik/config/helpers/human_formats.dart';
+import 'package:cinemawik/domain/entities/movie.dart';
 
 class MovieHorizontalListview extends StatefulWidget {
   final List<Movie> movies;
@@ -33,7 +33,7 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
     scrollController.addListener(() {
       if (widget.loadNextPage == null) return;
 
-      if (scrollController.position.pixels + 200 >= scrollController.position.maxScrollExtent) {
+      if ((scrollController.position.pixels + 200) >= scrollController.position.maxScrollExtent) {
             // print('>> Load next movies');
             widget.loadNextPage!();
       }
@@ -82,7 +82,9 @@ class _Slide extends StatelessWidget {
   Widget build(BuildContext context) {
     final textStyle = Theme.of(context).textTheme;
 
-
+    //* Condición que solo se muestren peliculas con posterPah
+    // ignore: unnecessary_null_comparison
+    if (movie.posterPath == null ||  movie.posterPath.isEmpty) return const SizedBox.shrink();
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 8),
@@ -95,24 +97,23 @@ class _Slide extends StatelessWidget {
             width: 150,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Image.network(
-                movie.posterPath,
-                fit: BoxFit.cover,
-                width: 150,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if(loadingProgress != null) {
-                    return const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                child: Image.network(
+                  movie.posterPath,
+                  fit: BoxFit.cover,
+                  width: 150,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if(loadingProgress != null) {
+                      return const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                      );
+                    }
+                    return GestureDetector(
+                      onTap: () => context.push('/home/0/movie/${movie.id}'),
+                      child: FadeIn(child: child)
                     );
-                  }
-                  
-                  return GestureDetector(
-                    onTap: () => context.push('/home/0/movie/${movie.id}'),
-                    child: FadeIn(child: child)
-                  );
-                },
-              ),
+                  },
+                  ),
             ),
           ),
 

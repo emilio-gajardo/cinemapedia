@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+// import 'package:go_router/go_router.dart';
 
-import 'package:cinemapedia/domain/entities/movie.dart';
-import 'package:cinemapedia/config/constants/environment.dart';
-import 'package:cinemapedia/presentation/delegates/search_movie_delegate.dart';
-import 'package:cinemapedia/presentation/providers/providers.dart';
+// import 'package:cinemawik/domain/entities/movie.dart';
+import 'package:cinemawik/config/constants/environment.dart';
+// import 'package:cinemawik/presentation/delegates/search_movie_delegate.dart';
+// import 'package:cinemawik/presentation/providers/providers.dart';
 
 
 class CustomAppbar extends ConsumerWidget {
@@ -24,34 +24,34 @@ class CustomAppbar extends ConsumerWidget {
           child: Row(
             // mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Icon(Icons.movie_outlined,  color: colors.primary),
+              Icon(Icons.movie_filter,  color: colors.primary),
               const SizedBox(width: 5),
-              // Text('Cinemapedia', style: titleStyle),
+              // Text('Cinemawik', style: titleStyle),
               Text(Environment.appName, style: titleStyle),
 
               const Spacer(),
 
-              IconButton(
-                onPressed: () {
-                final searchedMovies = ref.read(searchedMoviesProvider);  
-                final searchQuery = ref.read(searchQueryProvider);
+              // IconButton(
+              //   onPressed: () {
+              //   final searchedMovies = ref.read(searchedMoviesProvider);  
+              //   final searchQuery = ref.read(searchQueryProvider);
                 
-                  // * boton de busqueda
-                  showSearch<Movie?>(
-                    query: searchQuery,
-                    context: context,
-                    delegate: SearchMovieDelegate(
-                      initialMovies: searchedMovies,
-                      searchMovies: ref.read(searchedMoviesProvider.notifier).searchMoviesByQuery
-                    )
-                  ).then((movie) {
-                      if(movie == null) return;
-                      context.push('/home/0/movie/${movie.id}');
-                  });
+              //     // * boton de busqueda
+              //     showSearch<Movie?>(
+              //       query: searchQuery,
+              //       context: context,
+              //       delegate: SearchMovieDelegate(
+              //         initialMovies: searchedMovies,
+              //         searchMovies: ref.read(searchedMoviesProvider.notifier).searchMoviesByQuery
+              //       )
+              //     ).then((movie) {
+              //         if(movie == null) return;
+              //         context.push('/home/0/movie/${movie.id}');
+              //     });
 
-                },
-                icon: const Icon(Icons.search)
-              )
+              //   },
+              //   icon: const Icon(Icons.search)
+              // )
             ],
           ),
         ),
