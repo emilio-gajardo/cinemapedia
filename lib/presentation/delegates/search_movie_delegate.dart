@@ -163,7 +163,7 @@ class _MovieSearchItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
   
-    final textStyles = Theme.of(context).textTheme;
+    // final textStyles = Theme.of(context).textTheme;
 
     if (!_hasValidPoster()) {
       return const SizedBox.shrink();
