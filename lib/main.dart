@@ -4,10 +4,16 @@ import 'package:cinemawik/config/router/app_router.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:cinemawik/config/theme/app_theme.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 Future<void> main() async {
+
+  /// Lanzar y mantener splash screen
+  /// Se remueve el splash screen en: lib\presentation\views\movies\home_view.dart
+  FlutterNativeSplash.preserve(widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
+
   await dotenv.load(fileName: '.env');
   runApp(
     const ProviderScope(child: MainApp())

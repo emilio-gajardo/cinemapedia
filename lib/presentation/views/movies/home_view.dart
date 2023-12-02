@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:cinemawik/presentation/providers/providers.dart';
@@ -27,6 +28,9 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
 
     final initialLoading = ref.watch(initialLoadingProvider);
     if(initialLoading) return FullScreenLoader();
+
+    /// Remover splash screen hasta que carguen los 4 providers o endpoints
+    FlutterNativeSplash.remove();
 
     final slideShowMovies  = ref.watch(moviesSlideshowProvider);
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);

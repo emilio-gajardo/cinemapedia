@@ -1,4 +1,4 @@
-package com.example.cinemawik
+package com.emiliogajardo.cinemawik
 
 import io.flutter.embedding.android.FlutterActivity
 
